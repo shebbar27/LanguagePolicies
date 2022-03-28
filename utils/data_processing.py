@@ -269,8 +269,7 @@ if __name__ == '__main__':
     dc.createRecord(
         raw="../GDrive/collected/*.json",
         out="../GDrive/validate_custom.tfrecord",
-        # max_samples=4000
-        max_samples=20
+        max_samples=4000
         )
 
     # Specify where the raw data can be found and where you want the training data to be saved
@@ -279,8 +278,6 @@ if __name__ == '__main__':
     dc.createRecord(
         raw="../GDrive/collected/*.json",
         out="../GDrive/train_custom.tfrecord",
-        # min_samples=4000,
-        min_samples=20,
-        # max_samples=40000
-        max_samples=180
+        min_samples=4000,
+        max_samples=40000
         )
