@@ -75,12 +75,13 @@ class DataConverter():
             files = files[:max_samples]
 
         for idx, filepath in enumerate(files):
-            if idx % 100 == 0:
-                print(" {:5d}/{:5d}".format(idx, len(files)))
+            if idx % 100 == 99 or idx == len(files)-1:
+                print(" {:5d}/{:5d}".format(idx+1, len(files)))
 
             tf_example = self.createTfExample(*self.loadDemonstrationFromFile(filepath))
             writer.write(tf_example.SerializeToString())
 
+        print("TFRecord created successfully")
         writer.close()
     
     def createNormalization(self, raw, out):
@@ -96,8 +97,8 @@ class DataConverter():
         files                       = glob.glob(raw)
 
         for fn, file_handle in enumerate(files):
-            if fn % 100 == 0:
-                print("  {:5d}/{:5d}".format(fn, len(files)))
+            if fn % 100 == 99 or fn == len(files)-1:
+                print("  {:5d}/{:5d}".format(fn+1, len(files)))
             data = json.load(open(file_handle))
             state = np.asarray(data["state/raw"], dtype=np.float32)
 
@@ -113,6 +114,7 @@ class DataConverter():
         normalization["values"][2:3,:] /= len(files)
         pickle.dump(normalization, open(out, "wb"))
         self.normalization = normalization
+        print("Normalization completed successfully")
 
     def createTfExample(self, tokens, features, trajectory_in, trajectory_out, trajectory_length, dt, onehot, dmp_w):
         phase = np.linspace(0.0, 1.0, trajectory_length)
@@ -267,7 +269,8 @@ if __name__ == '__main__':
     dc.createRecord(
         raw="../GDrive/collected/*.json",
         out="../GDrive/validate_custom.tfrecord",
-        max_samples=4000
+        # max_samples=4000
+        max_samples=20
         )
 
     # Specify where the raw data can be found and where you want the training data to be saved
@@ -276,6 +279,8 @@ if __name__ == '__main__':
     dc.createRecord(
         raw="../GDrive/collected/*.json",
         out="../GDrive/train_custom.tfrecord",
-        min_samples=4000,
-        max_samples=40000
+        # min_samples=4000,
+        min_samples=20,
+        # max_samples=40000
+        max_samples=180
         )
