@@ -18,13 +18,17 @@ import os
 
 # How many processes shold collect data in parallel? 
 # A good measure is to put the number of CPU cores you have (Note that each process needs ~1GB of RAM also)
-PROCESSES           = 4
+# PROCESSES           = 4
+PROCESSES             = 4
 # How many demonstrations (picking and pouring) should each process collect? 
-SAMPLES_PER_PROCESS = 10
+# SAMPLES_PER_PROCESS = 10
+SAMPLES_PER_PROCESS = 25
 # Ever n demonstrations, VRep will be restarted entirely, not just the simulation. You don't need to change this
-RESET_EACH          = 20
+# RESET_EACH          = 20
+RESET_EACH          = 25
 # If you run more than 1 process, you should run VRep headless
 VREP_HEADLESS       = True
+# VREP_HEADLESS       = False
 # Default position of the UR5 robot. You do not need to change this
 DEFAULT_UR5_JOINTS  = [105.0, -30.0, 120.0, 90.0, 60.0, 90.0]
 # Path to the UR5 URDF file
