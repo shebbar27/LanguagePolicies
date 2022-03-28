@@ -48,7 +48,8 @@ class Network():
             train_loss = []
             for step, (d_in, d_out) in enumerate(self.train_ds):
                 if step % 100 == 0:
-                    validation_loss = self.runValidation(quick=True, pnt=False)                    
+                    # validation_loss = self.runValidation(quick=True, pnt=False)
+                    validation_loss = self.runValidation()                    
                 train_loss.append(self.step(d_in, d_out, train=True))
                 self.loadingBar(step, self.total_steps, 25, addition="Loss: {:.6f} | {:.6f}".format(np.mean(train_loss[-10:]), validation_loss))
                 if epoch == 0:
@@ -81,12 +82,12 @@ class Network():
             val_loss.append(self.step(d_in, d_out, train=False))
             if quick:
                 break
-        d_in_graphs  = (tf.tile(tf.expand_dims(d_in[0][0], 0),[50,1]), tf.tile(tf.expand_dims(d_in[1][0], 0),[50,1,1]), tf.tile(tf.expand_dims(d_in[2][0], 0),[50,1,1]))
-        d_out_graphs = (tf.tile(tf.expand_dims(d_out[0][0], 0),[50,1,1]), tf.tile(tf.expand_dims(d_out[1][0], 0),[50,1]), 
-                        tf.tile(tf.expand_dims([d_out[2][0]], 0),[50,1]), tf.tile(tf.expand_dims(d_out[3][0], 0),[50,1,1]))
-        self.createGraphs((d_in[0][0], d_in[1][0], d_in[2][0]),
-                          (d_out[0][0], d_out[1][0], d_out[2][0], d_out[3][0]), 
-                          self.model(d_in_graphs, training=True, use_dropout=True))
+            d_in_graphs  = (tf.tile(tf.expand_dims(d_in[0][0], 0),[50,1]), tf.tile(tf.expand_dims(d_in[1][0], 0),[50,1,1]), tf.tile(tf.expand_dims(d_in[2][0], 0),[50,1,1]))
+            d_out_graphs = (tf.tile(tf.expand_dims(d_out[0][0], 0),[50,1,1]), tf.tile(tf.expand_dims(d_out[1][0], 0),[50,1]), 
+                            tf.tile(tf.expand_dims([d_out[2][0]], 0),[50,1]), tf.tile(tf.expand_dims(d_out[3][0], 0),[50,1,1]))
+            self.createGraphs((d_in[0][0], d_in[1][0], d_in[2][0]),
+                            (d_out[0][0], d_out[1][0], d_out[2][0], d_out[3][0]), 
+                            self.model(d_in_graphs, training=True, use_dropout=True))
         if pnt:
             print("  Validation Loss: {:.6f}".format(np.mean(val_loss)))
         return np.mean(val_loss)
