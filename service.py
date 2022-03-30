@@ -34,7 +34,8 @@ FRCNN_PATH   = "../GDrive/rcnn"
 # Where are the GloVe word embeddings?
 GLOVE_PATH   = "../GDrive/glove.6B.50d.txt"
 # Where is the normalization of the dataset?
-NORM_PATH    = "../GDrive/normalization_v2.pkl"
+# NORM_PATH    = "../GDrive/normalization_v2.pkl"
+NORM_PATH    = "../GDrive/normalization_custom.pkl"
 
 if FORCE_CPU:
     trainOnCPU()

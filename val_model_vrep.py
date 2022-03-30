@@ -32,9 +32,10 @@ USE_SHAPE_SIZE      = True
 # (manual mode will allow you to generate environments and type in your own commands)
 RUN_ON_TEST_DATA    = True
 # How many of the 100 test-data do you want to test?
-NUM_TESTED_DATA     = 100
+NUM_TESTED_DATA     = 25
 # Where to find the normailization?
-NORM_PATH           = "../GDrive/normalization_v2.pkl"
+# NORM_PATH           = "../GDrive/normalization_v2.pkl"
+NORM_PATH           = "../GDrive/normalization_custom.pkl"
 # Where to find the VRep scene file. This has to be an absolute path. 
 VREP_SCENE          = "../GDrive/NeurIPS2020.ttt"
 VREP_SCENE          = os.getcwd() + "/" + VREP_SCENE

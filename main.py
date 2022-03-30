@@ -16,9 +16,9 @@ import os.path
 import sys
 
 # Location of the training data
-TRAIN_DATA      = "../GDrive/train.tfrecord"
+TRAIN_DATA      = "../GDrive/train_custom.tfrecord"
 # Location of the validation data
-VALIDATION_DATA = "../GDrive/validate.tfrecord"
+VALIDATION_DATA = "../GDrive/validate_custom.tfrecord"
 # Location of the GloVe word embeddings
 GLOVE_PATH      = "../GDrive/glove.6B.50d.txt"
 # Learning rate for the adam optimizer
@@ -34,7 +34,8 @@ WEIGHT_DT       = 14.0
 # Weight for the phase prediction loss
 WEIGHT_PHS      = 1.0
 # Number of epochs to train
-TRAIN_EPOCHS    = 200
+# TRAIN_EPOCHS    = 200
+TRAIN_EPOCHS    = 50
 
 trainOnCPU()
 
