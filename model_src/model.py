@@ -3,6 +3,7 @@
 import tensorflow as tf
 import pathlib
 from model_src.attention import TopDownAttention
+from model_src.bert import BertEmbeddings
 from model_src.glove import GloveEmbeddings
 from model_src.dmp import DynamicMovementPrimitive
 from model_src.basismodel import BasisModel
@@ -22,6 +23,7 @@ class PolicyTranslationModel(tf.keras.Model):
             self.frcnn.trainable = False
 
         self.embedding = GloveEmbeddings(file_path=glove_path)
+        # self.embedding = BertEmbeddings()
         self.lng_gru   = tf.keras.layers.GRU(units=self.units)
 
         self.attention = TopDownAttention(units=64)
