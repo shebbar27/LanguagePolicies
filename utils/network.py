@@ -2,7 +2,7 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 import tensorflow as tf
-import tensorflow_probability as tfp
+# import tensorflow_probability as tfp
 import sys
 import numpy as np
 from utils.graphs import TBoardGraphs
