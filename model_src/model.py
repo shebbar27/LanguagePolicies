@@ -22,8 +22,8 @@ class PolicyTranslationModel(tf.keras.Model):
             self.frcnn = self.frcnn.signatures['serving_default']
             self.frcnn.trainable = False
 
-        self.embedding = GloveEmbeddings(file_path=glove_path)
-        # self.embedding = BertEmbeddings()
+        # self.embedding = GloveEmbeddings(file_path=glove_path)
+        self.embedding = BertEmbeddings()
         self.lng_gru   = tf.keras.layers.GRU(units=self.units)
 
         self.attention = TopDownAttention(units=64)
