@@ -9,6 +9,9 @@ import pickle
 import re
 import os
 from intprim.gaussian_model import GaussianModel
+from transformers import BertTokenizer
+
+LANGUAGE_TOKEN_MAX_LENGTH = 15
 
 def getDMPData(data, n_bfunc):
     basismodel   = GaussianModel(degree=n_bfunc, scale=0.012, observed_dof_names=("Base","Shoulder","Ellbow","Wrist1","Wrist2","Wrist3","Gripper"))
@@ -75,7 +78,7 @@ class DataConverter():
             files = files[:max_samples]
 
         for idx, filepath in enumerate(files):
-            if idx % 100 == 99 or idx == len(files)-1:
+            if idx == 0 or (idx+1) % 100 == 0 or idx+1 == len(files):
                 print(" {:5d}/{:5d}".format(idx+1, len(files)))
 
             tf_example = self.createTfExample(*self.loadDemonstrationFromFile(filepath))
@@ -97,7 +100,7 @@ class DataConverter():
         files                       = glob.glob(raw)
 
         for fn, file_handle in enumerate(files):
-            if fn % 100 == 99 or fn == len(files)-1:
+            if fn == 0 or (fn+1) % 100 == 0 or fn+1 == len(files):
                 print("  {:5d}/{:5d}".format(fn+1, len(files)))
             data = json.load(open(file_handle))
             state = np.asarray(data["state/raw"], dtype=np.float32)
@@ -157,6 +160,20 @@ class DataConverter():
             except:
                 print("Unknown word: " + w)
             tokens.append(idx)
+        return tokens
+
+    def tokenizeForBert(self, language):
+        self.tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
+        bertTokens = self.tokenizer(
+            language, 
+            return_tensors='np', 
+            add_special_tokens=False, 
+            return_attention_mask=False, 
+            return_token_type_ids=False,
+            max_length=LANGUAGE_TOKEN_MAX_LENGTH,
+            padding='max_length')
+        tokens = bertTokens['input_ids'].flat[:].tolist()
+        print(tokens)
         return tokens
     
     def padSequence(self, sequence, length):
@@ -238,8 +255,9 @@ class DataConverter():
         trajectory_out              = trajectory_out.flatten()
         trajectory_in               = trajectory_in.flatten()
         language                    = data["voice"]
-        tokens                      = self.tokenize(language)
-        tokens                      = tokens + [0] * (15 - len(tokens))
+        # tokens                      = self.tokenize(language)
+        tokens                      = self.tokenizeForBert(language)
+        # tokens                      = tokens + [0] * (15 - len(tokens))
         onehot                      = np.zeros(6, dtype=np.int32)
 
         tid = data["target/id"]
