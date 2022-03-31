@@ -173,7 +173,7 @@ class DataConverter():
             max_length=LANGUAGE_TOKEN_MAX_LENGTH,
             padding='max_length')
         tokens = bertTokens['input_ids'].flat[:].tolist()
-        print(tokens)
+        # print(tokens)
         return tokens
     
     def padSequence(self, sequence, length):
