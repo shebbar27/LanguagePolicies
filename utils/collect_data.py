@@ -22,7 +22,7 @@ import os
 PROCESSES             = 4
 # How many demonstrations (picking and pouring) should each process collect? 
 # SAMPLES_PER_PROCESS = 10
-SAMPLES_PER_PROCESS = 25
+SAMPLES_PER_PROCESS = 2500
 # Ever n demonstrations, VRep will be restarted entirely, not just the simulation. You don't need to change this
 # RESET_EACH          = 20
 RESET_EACH          = 25
