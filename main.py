@@ -35,7 +35,7 @@ WEIGHT_DT       = 14.0
 WEIGHT_PHS      = 1.0
 # Number of epochs to train
 # TRAIN_EPOCHS    = 200
-TRAIN_EPOCHS    = 50
+TRAIN_EPOCHS    = 200
 
 trainOnCPU()
 
