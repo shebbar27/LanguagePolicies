@@ -48,8 +48,7 @@ class Network():
             train_loss = []
             for step, (d_in, d_out) in enumerate(self.train_ds):
                 if step % 100 == 0:
-                    # validation_loss = self.runValidation(quick=True, pnt=False)
-                    validation_loss = self.runValidation()                    
+                    validation_loss = self.runValidation(quick=True, pnt=False)                    
                 train_loss.append(self.step(d_in, d_out, train=True))
                 self.loadingBar(step, self.total_steps, 25, addition="Loss: {:.6f} | {:.6f}".format(np.mean(train_loss[-10:]), validation_loss))
                 if epoch == 0:
