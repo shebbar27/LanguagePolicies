@@ -167,7 +167,7 @@ class DataConverter():
         bertTokens = self.tokenizer(
             language, 
             return_tensors='np', 
-            add_special_tokens=False, 
+            # add_special_tokens=False, 
             return_attention_mask=False, 
             return_token_type_ids=False,
             max_length=LANGUAGE_TOKEN_MAX_LENGTH,
@@ -288,7 +288,7 @@ if __name__ == '__main__':
         raw="../GDrive/collected/*.json",
         out="../GDrive/validate_custom.tfrecord",
         # max_samples=4000
-        max_samples = 1000
+        max_samples = 40
         )
 
     # Specify where the raw data can be found and where you want the training data to be saved
@@ -299,6 +299,6 @@ if __name__ == '__main__':
         out="../GDrive/train_custom.tfrecord",
         # min_samples=4000,
         # max_samples=40000
-        min_samples=1000,
-        max_samples=10000
+        min_samples=40,
+        max_samples=400
         )
