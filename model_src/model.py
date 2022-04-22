@@ -24,7 +24,10 @@ class PolicyTranslationModel(tf.keras.Model):
 
         # self.embedding = GloveEmbeddings(file_path=glove_path)
         self.embedding = BertEmbeddings()
-        self.lng_gru   = tf.keras.layers.GRU(units=self.units)
+        self.lng_gru   = tf.keras.layers.GRU(units=256)
+        self.lng_gru1  = tf.keras.layers.GRU(units=128)
+        self.lng_gru2  = tf.keras.layers.GRU(units=64)
+        self.lng_gru3  = tf.keras.layers.GRU(units=self.units)
 
         self.attention = TopDownAttention(units=64)
 
@@ -59,7 +62,13 @@ class PolicyTranslationModel(tf.keras.Model):
         batch_size = tf.shape(language)[0]
 
         language  = self.embedding(language)
-        language  = self.lng_gru(inputs=language, training=training) 
+        language  = self.lng_gru(inputs=language, training=training)
+        language  = tf.expand_dims(language, 2)
+        language  = self.lng_gru1(inputs=language, training=training)
+        language  = tf.expand_dims(language, 2)
+        language  = self.lng_gru2(inputs=language, training=training)
+        language  = tf.expand_dims(language, 2)
+        language  = self.lng_gru3(inputs=language, training=training)
 
         # Calculate attention and expand it to match the feature size
         atn = self.attention((language, features))
