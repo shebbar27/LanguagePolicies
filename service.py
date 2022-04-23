@@ -22,6 +22,7 @@ import glob
 import json
 import pickle
 import copy
+from transformers import BertTokenizer
 
 # Force TensorFlow to use the CPU
 FORCE_CPU    = True
@@ -36,6 +37,8 @@ GLOVE_PATH   = "../GDrive/glove.6B.50d.txt"
 # Where is the normalization of the dataset?
 # NORM_PATH    = "../GDrive/normalization_v2.pkl"
 NORM_PATH    = "../GDrive/normalization_custom.pkl"
+
+LANGUAGE_TOKEN_MAX_LENGTH = 15
 
 if FORCE_CPU:
     trainOnCPU()
@@ -101,6 +104,20 @@ class NetworkService():
             tokens.append(idx)
         return tokens
     
+    def tokenizeForBert(self, language):
+        self.tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
+        bertTokens = self.tokenizer(
+            language, 
+            return_tensors='np', 
+            # add_special_tokens=False, 
+            return_attention_mask=False, 
+            return_token_type_ids=False,
+            max_length=LANGUAGE_TOKEN_MAX_LENGTH,
+            padding='max_length')
+        tokens = bertTokens['input_ids'].flat[:].tolist()
+        # print(tokens)
+        return tokens
+
     def normalize(self, value, v_min, v_max):
         if (value.shape[1] != v_min.shape[0] or v_min.shape[0] != v_max.shape[0] or 
             len(value.shape) != 2 or len(v_min.shape) != 1 or len(v_max.shape) != 1):
@@ -166,8 +183,9 @@ class NetworkService():
                 image = self.imgmsg_to_cv2(req.image)
             except CvBridgeError as e:
                 print(e)
-            language = self.tokenize(req.language)
-            self.language = language + [0] * (15-len(language))
+            # language = self.tokenize(req.language)
+            # self.language = language + [0] * (15-len(language))
+            self.language = self.tokenizeForBert(req.language)
 
             image_features = model.frcnn(tf.convert_to_tensor([image], dtype=tf.uint8))
 

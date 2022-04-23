@@ -25,7 +25,7 @@ from PIL import Image
 # Default robot position. You don't need to change this
 DEFAULT_UR5_JOINTS  = [105.0, -30.0, 120.0, 90.0, 60.0, 90.0]
 # Evaluate headless or not
-HEADLESS            = False
+HEADLESS            = True
 # This is a debug variable... 
 USE_SHAPE_SIZE      = True
 # Run on the test data, or start the simulator in manual mode 
